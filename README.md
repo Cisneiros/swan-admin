@@ -2,15 +2,15 @@
 
 A simple administration interface for Express + Mongoose projects.
 
-# Installing
+## Installing
 
     npm install swan-admin
 
-# Usage
+## Usage
 
 Swan Admin is ment to be used with **existing Express applications**. It assumes you have a Mongoose connection configured and working somewhere. To configure Swan Admin, you just have to give it some information about your Models.
 
-## Basic Configuration
+### Basic Configuration
 
     // User and Post are instances of Mongoose.Model
     var models = [
@@ -37,7 +37,7 @@ Swan Admin is ment to be used with **existing Express applications**. It assumes
         credentials: credentials,
     }));
 
-## Advanced configuration
+### Advanced configuration
 
 Each item on the `models` array can be set as follows:
     
@@ -75,13 +75,13 @@ The `fields` option is used to change a field behaviour. If you set `explicitFie
                             // 'markdown', 'datetime'
     }
 
-# Known Issues
+## Known Issues
 
 **This project is still in early stages!** It hasn't been fully tested and it is not feature-complete. This project began as an administration interface for a personal project, so it is not as general as it should be yet.
 
 I plan to enhance Swan Admin and make it more general and more efficient. If you wan't to contribute, feel free to talk to me or send a pull request. :)
 
-# License (MIT)
+## License (MIT)
 Copyright © 2014 Alexandre Cisneiros - www.cisneiros.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
