@@ -1,0 +1,13 @@
+extends layout
+
+prepend title
+  | All #{model.pluralName} &mdash;
+
+block content
+  h1 All #{model.pluralName}
+  p Found #{instances.length} instances.
+
+  ul
+    each instance in instances
+      li
+        a(href=mountPoint + '/' + model.pluralName + '/' + instance.id)= model.toString(instance)

@@ -1,0 +1,15 @@
+extends layout
+
+prepend title
+	| Home &mdash;
+
+block content
+	h1 Home
+	p Welcome to Swan Admin!
+
+	ul.models
+		each model in models
+			li
+				a(href='#{mountPoint}/#{model.pluralName}')= model.pluralName
+	p
+		a(href='#{mountPoint}/logout') Logout

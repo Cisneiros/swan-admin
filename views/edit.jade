@@ -1,0 +1,32 @@
+extends layout
+
+include _editor_mixins.jade
+
+prepend title
+  | Editing #{model.name}: #{model.toString(instance)} &mdash;
+
+block content
+  h1 Editing #{model.name}: #{model.toString(instance)}
+  p ID: #{instance.id}.
+
+  form(method='post', role='form').form-horizontal.model-form
+    each fieldData, fieldName in model.fields
+      .form-group
+        label.control-label.col-sm-2 #{fieldName} <!-- (#{fieldData.kind}) -->
+        case fieldData.editor
+          when 'textfield'
+            +editor_textfield(fieldName, instance[fieldName])
+          when 'textarea'
+            +editor_textarea(fieldName, instance[fieldName])
+          when 'markdown'
+            +editor_markdown(fieldName, instance[fieldName])
+          when 'datetime'
+            +editor_datetime(fieldName, instance[fieldName])
+          default
+            em
+              | No editor matching 
+              strong= fieldData.editor
+              | .
+    button(type='submit').btn.btn-success Save #{model.name}
+
+  //- p= instance

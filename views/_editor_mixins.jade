@@ -1,0 +1,48 @@
+mixin editor_textfield(field, value)
+  .col-sm-10
+    input(type='text', value=value, name=field).form-control
+
+mixin editor_textarea(field, value)
+  .col-sm-10
+    textarea(name=field, rows=6).form-control= value
+
+mixin editor_markdown(field, value)
+  .col-sm-5
+    textarea(id='markdown-source-#{field}', name=field, rows=6).form-control= value
+  .col-sm-5
+    .well.well-sm(id='markdown-preview-#{field}') value
+  script.
+    window.addEventListener('load', function() {
+      var source = document.querySelector('#markdown-source-#{field}');
+      var preview = document.querySelector('#markdown-preview-#{field}');
+      function updateField() {
+        source.style.height = 0;
+        if (source.scrollHeight > source.clientHeight) {
+          source.style.height = source.scrollHeight + "px";
+        }
+        preview.innerHTML = marked(source.value);
+      }
+      source.addEventListener('input', function() {
+        updateField();
+      });
+      updateField();
+    });
+
+mixin editor_datetime(field, value)
+  .col-sm-10
+    input(id='datetime-value-#{field}', type='hidden', value=value, name=field)
+    .input-group.date(id='datetime-display-#{field}')
+      input(type='text').form-control
+      span.input-group-addon
+        span.glyphicon.glyphicon-calendar
+    script.
+      $(function () {
+        var realInput = $('#datetime-value-#{field}');
+        $('#datetime-display-#{field}').datetimepicker({
+          //- format: 'YYYY/MM/DD',
+          defaultDate: moment('#{value}')
+        });
+        $('#datetime-display-#{field}').on('dp.change', function(e) {
+          realInput.val($('#datetime-display-#{field}').data("DateTimePicker").getDate().valueOf());
+        });
+      });
