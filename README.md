@@ -8,7 +8,7 @@ A simple administration interface for Express + Mongoose projects.
 
 # Usage
 
-Swan Admin is ment to be used with **existing express applications**. It assumes you have a Mongoose connection configured and working somewhere. To configure Swan Admin, you just have to give it some information about your Models.
+Swan Admin is ment to be used with **existing Express applications**. It assumes you have a Mongoose connection configured and working somewhere. To configure Swan Admin, you just have to give it some information about your Models.
 
 ## Basic Configuration
 
