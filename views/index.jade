@@ -10,6 +10,6 @@ block content
 	ul.models
 		each model in models
 			li
-				a(href='#{mountPoint}/#{model.pluralName}')= model.pluralName
+				a.model-name(href='#{mountPoint}/#{model.pluralName}')= model.pluralName
 	p
 		a(href='#{mountPoint}/logout') Logout

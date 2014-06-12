@@ -7,7 +7,20 @@ block content
   h1 All #{model.pluralName}
   p Found #{instances.length} instances.
 
-  ul
-    each instance in instances
-      li
-        a(href=mountPoint + '/' + model.pluralName + '/' + instance.id)= model.toString(instance)
+  table.table.table-striped.table-hover.model-table
+    thead
+      tr
+        th.id ID
+        th.model-description.model-name #{model.name}
+        th.actions Actions
+    tbody
+      each instance in instances
+        tr
+          td.id
+            a(href=mountPoint + '/' + model.pluralName + '/' + instance.id)= instance.id
+          td.model-description
+            a(href=mountPoint + '/' + model.pluralName + '/' + instance.id)= model.toString(instance)
+          td.actions
+            a.btn.btn-warning.btn-xs(href=mountPoint + '/' + model.pluralName + '/' + instance.id) Edit
+            |  
+            a.btn.btn-danger.btn-xs(href=mountPoint + '/' + model.pluralName + '/' + instance.id + '/remove') Remove
