@@ -9,7 +9,5 @@ block content
 
 	ul.models
 		each model in models
-			li
-				a.model-name(href='#{mountPoint}/#{model.pluralName}')= model.pluralName
-	p
-		a(href='#{mountPoint}/logout') Logout
+			li.model-name
+				+makeLink(model)= model.pluralName

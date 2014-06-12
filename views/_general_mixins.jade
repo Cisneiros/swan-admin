@@ -1,0 +1,35 @@
+mixin makeLink(model, instance, extras)
+  - extras = extras || '';
+  - if (!extras && typeof(model) == 'string') {
+  -   extras = model;
+  -   model = undefined;
+  - }
+  - finalUrl = mountPoint;
+  - if (model) {
+  -   finalUrl += '/' + model.pluralName;
+  -   if (instance) {
+  -     finalUrl += '/' + instance.id;
+  -   }
+  - }
+  - finalUrl += extras;
+  a(href=finalUrl)
+    block
+
+mixin sidebar(models)
+  nav.sidebar
+    h2 Administration
+    ul.nav.nav-pills.nav-stacked
+      li(class=currentPage == 'home' ? 'active' : undefined)
+        +makeLink() Home
+      if authenticated
+        li
+          +makeLink('/logout') Logout
+          
+    if authenticated
+      hr
+      h2 Models
+      ul.nav.nav-pills.nav-stacked
+        each model in models
+          li.model-name(class=currentPage == 'model-#{model.pluralName}' ? 'active' : undefined)
+            +makeLink(model)= model.pluralName
+

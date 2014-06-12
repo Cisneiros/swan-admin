@@ -62,6 +62,7 @@ module.exports = function (config) {
         if (req.swanAdminSession.loggedInAs !== credentials.username) {
             res.redirect(mountPoint + '/login');
         } else {
+            res.locals.authenticated = true;
             next();
         }
     })
@@ -135,7 +136,8 @@ module.exports = function (config) {
             model.mongooseModel.find(function (err, instances) {
                 res.render('list', {
                     model: model,
-                    instances: instances
+                    instances: instances,
+                    currentPage: 'model-' + model.pluralName
                 })
             });
         });
@@ -150,7 +152,8 @@ module.exports = function (config) {
 
                 res.render('edit', {
                     model: model,
-                    instance: instance
+                    instance: instance,
+                    currentPage: 'model-' + model.pluralName
                 })
             });
         });
@@ -184,7 +187,8 @@ module.exports = function (config) {
 
                 res.render('remove', {
                     model: model,
-                    instance: instance
+                    instance: instance,
+                    currentPage: 'model-' + model.pluralName
                 })
             });
         });
@@ -204,6 +208,8 @@ module.exports = function (config) {
         });
     }
 
+    app.locals.models = models;
+
     for (i in models) {
         makeList(models[i]);
         makeEdit(models[i]);
@@ -212,7 +218,7 @@ module.exports = function (config) {
 
     app.get('/', function(req, res) {
         res.render('index', {
-            models: models
+            currentPage: 'home'
         });
     });
 

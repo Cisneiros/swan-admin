@@ -17,10 +17,12 @@ block content
       each instance in instances
         tr
           td.id
-            a(href=mountPoint + '/' + model.pluralName + '/' + instance.id)= instance.id
+            +makeLink(model, instance)= instance.id
           td.model-description
-            a(href=mountPoint + '/' + model.pluralName + '/' + instance.id)= model.toString(instance)
+            +makeLink(model, instance)= model.toString(instance)
           td.actions
-            a.btn.btn-warning.btn-xs(href=mountPoint + '/' + model.pluralName + '/' + instance.id) Edit
+            +makeLink(model, instance)
+              span.btn.btn-warning.btn-xs Edit
             |  
-            a.btn.btn-danger.btn-xs(href=mountPoint + '/' + model.pluralName + '/' + instance.id + '/remove') Remove
+            +makeLink(model, instance, extras='/remove')
+              span.btn.btn-danger.btn-xs Remove

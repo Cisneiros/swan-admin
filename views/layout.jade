@@ -1,3 +1,5 @@
+include _general_mixins.jade
+
 doctype html
 html
   head
@@ -12,7 +14,11 @@ html
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js')
   body
     .container
-      block content
+      .row
+        .col-sm-9
+          block content
+        .col-sm-3
+          +sidebar(models)
     
     script(src='#{mountPoint}/javascripts/bootstrap.min.js')
     script(src='#{mountPoint}/javascripts/moment.min.js')
