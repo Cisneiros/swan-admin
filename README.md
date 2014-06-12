@@ -91,9 +91,16 @@ The `fields` option is used to change a field behaviour. If you set `explicitFie
 
 ## Known Issues
 
-**This project is still in early stages!** It hasn't been fully tested and it is not feature-complete. This project began as an administration interface for a personal project, so it is not as general as it should be yet.
+**This project is still in early stages and it is incomplete!** It hasn't been fully tested and it is not feature-complete. This project began as an administration interface for a personal project, so it is not as general as it should be yet.
 
 I plan to enhance Swan Admin and make it more general and more efficient. If you wan't to contribute, feel free to talk to me or send a pull request. :)
+
+### Some features not yet implemented
+
+* Add new instances
+* Paginate instance list
+* Filter/search for instances
+* Enhance visual interface
 
 ## License (MIT)
 Copyright © 2014 Alexandre Cisneiros - www.cisneiros.com
