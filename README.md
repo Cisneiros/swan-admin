@@ -12,6 +12,8 @@ Swan Admin is ment to be used with **existing Express applications**. It assumes
 
 ### Basic Configuration
 
+This should go on your Express app code.
+
     // User and Post are instances of Mongoose.Model
     var models = [
         { mongooseModel: User },
@@ -34,7 +36,19 @@ Swan Admin is ment to be used with **existing Express applications**. It assumes
     app.use(adminMountPoint, admin({
         models: models,
         mountPoint: adminMountPoint,
+        credentials: credentials
+    }));
+
+Also, Swan Admin stores the authentication data on the **client**, securely. This means Swan Admin authentication is stateless, and can scale. It assumes you have a `SESSION_SECRET` environment variable, whose value is a random string that only you know.
+
+If, for some reason, you cannot set this environment variable, you can pass the string on the app configuration. In that case, the last part would be something like:
+
+    var admin = require('swan-admin');
+    app.use(adminMountPoint, admin({
+        models: models,
+        mountPoint: adminMountPoint,
         credentials: credentials,
+        sessionSecret: 'something-random-and-SECRET!'
     }));
 
 ### Advanced configuration
