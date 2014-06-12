@@ -68,64 +68,66 @@ module.exports = function (config) {
 
     // Fill in the models properties
     for (i in models) {
-        // Default name: model name
-        if (!models[i].name) {
-            models[i].name = models[i].mongooseModel.modelName.toLowerCase();
-        }
-
-        // Default plural: s
-        if (!models[i].pluralName) {
-            models[i].pluralName = models[i].name + 's';
-        }
-
-        // toString can be a string or a function
-        if (models[i].toString == Object.prototype.toString)  {
-            models[i].toString = '';
-        }
-        if (typeof(models[i].toString) != 'function') {
-            var field = '' + models[i].toString;
-            if (field == '') {
-                field = 'id';
+        (function (i) {
+            // Default name: model name
+            if (!models[i].name) {
+                models[i].name = models[i].mongooseModel.modelName.toLowerCase();
             }
-            models[i].toString = function (instance) {
-                return instance[field];
-            };
-        }
 
-        // Default fields: all of them
-        if (!models[i].fields) {
-            models[i].fields = {};
-        }
-        for (j in models[i].mongooseModel.schema.paths) {
-            var pathData = models[i].mongooseModel.schema.paths[j];
+            // Default plural: s
+            if (!models[i].pluralName) {
+                models[i].pluralName = models[i].name + 's';
+            }
 
-            if (pathData.path.indexOf('_') != 0) {
-                if (!models[i].explicitFieldsOnly || models[i].fields[pathData.path]){
-                    if (!models[i].fields[pathData.path]) {
-                        models[i].fields[pathData.path] = {};
-                    }
+            // toString can be a string or a function
+            if (models[i].toString === Object.prototype.toString)  {
+                models[i].toString = '';
+            }
+            if (typeof(models[i].toString) != 'function') {
+                var field = '' + models[i].toString;
+                if (field == '') {
+                    field = 'id';
+                }
+                models[i].toString = function (instance) {
+                    return instance[field];
+                };
+            }
 
-                    // Default kind: ask mongoose (why do different, btw?)
-                    if (!models[i].fields[pathData.path].kind) {
-                        models[i].fields[pathData.path].kind = pathData.options.type;
-                    }
+            // Default fields: all of them
+            if (!models[i].fields) {
+                models[i].fields = {};
+            }
+            for (j in models[i].mongooseModel.schema.paths) {
+                var pathData = models[i].mongooseModel.schema.paths[j];
 
-                    // Default editor: textfield or datetime
-                    if (!models[i].fields[pathData.path].editor) {
-                        switch(models[i].fields[pathData.path].kind) {
-                            case mongoose.Schema.Types.Date:
-                            case Date:
-                            models[i].fields[pathData.path].editor = 'datetime';
-                            break;
-                        default:
-                            models[i].fields[pathData.path].editor = 'textfield';
-                            break;
+                if (pathData.path.indexOf('_') != 0) {
+                    if (!models[i].explicitFieldsOnly || models[i].fields[pathData.path]){
+                        if (!models[i].fields[pathData.path]) {
+                            models[i].fields[pathData.path] = {};
+                        }
+
+                        // Default kind: ask mongoose (why do different, btw?)
+                        if (!models[i].fields[pathData.path].kind) {
+                            models[i].fields[pathData.path].kind = pathData.options.type;
+                        }
+
+                        // Default editor: textfield or datetime
+                        if (!models[i].fields[pathData.path].editor) {
+                            switch(models[i].fields[pathData.path].kind) {
+                                case mongoose.Schema.Types.Date:
+                                case Date:
+                                models[i].fields[pathData.path].editor = 'datetime';
+                                break;
+                            default:
+                                models[i].fields[pathData.path].editor = 'textfield';
+                                break;
+                            }
                         }
                     }
+                    
                 }
-                
             }
-        }
+        })(i);
     }
 
     function makeList (model) {
