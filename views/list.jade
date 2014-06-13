@@ -5,6 +5,9 @@ prepend title
 
 block content
   h1 All #{model.pluralName}
+  div.pull-right
+    +makeLink(model, null, extras='/create')
+      span.btn.btn-primary.btn-xs Create a new #{model.name}
   p Found #{instances.length} instances.
 
   table.table.table-striped.table-hover.model-table

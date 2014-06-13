@@ -1,0 +1,17 @@
+extends layout
+
+include _editor_mixins.jade
+
+prepend title
+  | Creating new #{model.name} &mdash;
+
+block content
+  h1 Creating new #{model.name}
+
+  form(method='post', role='form').form-horizontal.model-form
+    each fieldData, fieldName in model.fields
+      .form-group
+        label.control-label.col-sm-2 #{fieldName}
+        +editor(fieldName, newInstance[fieldName], fieldData.editor)
+    button(type='submit').btn.btn-success Save new #{model.name}
+

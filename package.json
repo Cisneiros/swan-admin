@@ -1,7 +1,7 @@
 {
   "name": "swan-admin",
   "description": "Admin interface for managing Mongoose models on Express websites.",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "private": false,
   "main": "swan-admin.js",
   "keywords": [

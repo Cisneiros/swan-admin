@@ -97,7 +97,6 @@ I plan to enhance Swan Admin and make it more general and more efficient. If you
 
 ### Some features not yet implemented
 
-* Add new instances
 * Paginate instance list
 * Filter/search for instances
 * Enhance visual interface

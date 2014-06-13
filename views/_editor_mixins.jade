@@ -46,3 +46,19 @@ mixin editor_datetime(field, value)
           realInput.val($('#datetime-display-#{field}').data("DateTimePicker").getDate().valueOf());
         });
       });
+
+mixin editor(field, value, editor)
+  case editor
+    when 'textfield'
+      +editor_textfield(field, value)
+    when 'textarea'
+      +editor_textarea(field, value)
+    when 'markdown'
+      +editor_markdown(field, value)
+    when 'datetime'
+      +editor_datetime(field, value)
+    default
+      em
+        | No editor matching 
+        strong= fieldData.editor
+        | .

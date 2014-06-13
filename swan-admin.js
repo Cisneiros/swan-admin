@@ -143,6 +143,40 @@ module.exports = function (config) {
         });
     }
 
+    function makeCreate (model) {
+        app.get('/' + model.pluralName + '/create', function (req, res, next) {
+            res.render('create', {
+                model: model,
+                newInstance: {},
+                currentPage: 'model-' + model.pluralName
+            });
+        });
+
+        app.post('/' + model.pluralName + '/create', function (req, res, next) {
+            var instance = new model.mongooseModel();
+
+            for (fieldName in model.fields) {
+                instance[fieldName] = req.body[fieldName];
+            }
+            instance.save(function (err) {
+                if (err) {
+                    return next(err);
+
+                    // TODO: Implement validation errors
+
+                    // res.render('create', {
+                    //     model: model,
+                    //     newInstance: instance,
+                    //     currentPage: 'model-' + model.pluralName,
+                    //     error: err,
+                    // });
+                }
+
+                res.redirect(mountPoint + '/' + model.pluralName);
+            });
+        });
+    }
+
     function makeEdit (model) {
         app.get('/' + model.pluralName + '/:id', function (req, res, next) {
             model.mongooseModel.findById(req.params.id, function (err, instance) {
@@ -200,7 +234,7 @@ module.exports = function (config) {
                         return next(err);
                     }
 
-                    res.redirect('/' + model.pluralName);
+                    res.redirect(mountPoint + '/' + model.pluralName);
                 });
             } else {
                 res.redirect(req.originalUrl);
@@ -212,6 +246,7 @@ module.exports = function (config) {
 
     for (i in models) {
         makeList(models[i]);
+        makeCreate(models[i]);
         makeEdit(models[i]);
         makeRemove(models[i]);
     }
