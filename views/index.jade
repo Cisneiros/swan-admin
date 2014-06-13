@@ -5,9 +5,25 @@ prepend title
 
 block content
 	h1 Home
-	p Welcome to Swan Admin!
+	p
+		| Welcome to Swan Admin! Navigate through your models using the 
+		span.hidden-xs sidebar on your right
+		span.hidden-sm.hidden-md.hidden-lg menu at the bottom
+		| .
 
-	ul.models
-		each model in models
-			li.model-name
-				+makeLink(model)= model.pluralName
+	h2 Database statistics
+	dl.dl-horizontal
+		dt Database Name
+		dd= stats.db
+		dt # of Collections
+		dd= stats.collections
+		dt # of Documents
+		dd= stats.objects
+		dt Average Document Size
+		dd #{stats.avgObjSize} kB
+		dt Databse Size
+		dd #{stats.dataSize} kB
+		dt Storage Size
+		dd #{stats.storageSize} kB
+		dt Database File Size
+		dd #{stats.fileSize} kB

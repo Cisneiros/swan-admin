@@ -217,8 +217,11 @@ module.exports = function (config) {
     }
 
     app.get('/', function(req, res) {
-        res.render('index', {
-            currentPage: 'home'
+        models[0].mongooseModel.db.db.executeDbCommand({ dbStats: 1, scale: 1024 }, function (err, result) {
+            res.render('index', {
+                stats: result.documents[0],
+                currentPage: 'home'
+            });
         });
     });
 
