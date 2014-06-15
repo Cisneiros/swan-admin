@@ -14,17 +14,12 @@ Swan Admin is ment to be used with **existing Express applications**. It assumes
 
 This should go on your Express app code.
 
-    // Define which models will be available on the administration interface.
-    // `User` and `Post` are instances of Mongoose.Model, in this example.
-    var models = [
-        { mongooseModel: User },
-        { mongooseModel: Post }
-    ];
-
     // Require the module and install the middleware.
+    // `User` and `Post` are instances of Mongoose.Model, in this example.
+
     var admin = require('swan-admin');
     app.use('/admin', admin({
-        models: models,
+        models: [User, Post],
         credentials: {
             username: process.env.ADMIN_USERNAME,
             password: process.env.ADMIN_PASSWORD
@@ -35,7 +30,7 @@ This should go on your Express app code.
 Swan Admin stores the authentication data on the **client**, securely. This means Swan Admin authentication is stateless, and can scale. It uses a Session Secret to encrypt the session data, before sending it to the browser. It is strongely adivised that you keep that in an environment variable, like `ADMIN_SESSION_SECRET` (as done above), whose value is a random string that only you know. The same applies to your credentials. If, for some reason, you cannot set these environment variable, you can pass the bare strings on the app configuration.
 
     app.use(adminMountPoint, admin({
-        models: models,
+        models: [User, Post],
         credentials: {
             username: 'boss',
             password: 'im-th3-b0ss'
@@ -45,13 +40,17 @@ Swan Admin stores the authentication data on the **client**, securely. This mean
 
 ### Advanced configuration
 
-Each item on the `models` array can be set as follows:
+Each item on the `models` array can be either a `Mongoose.Model` or a Model Configuration Object (you can mix them). When you use a `Mongoose.Model`, Swan Admin will turn it into a Model Configuration Object with all the default options, and that is usually fine for simple use cases.
+
+If you want a fine tuned administration interface, pass Model Configuration Objects instead. Each object can have the following properties (omitting any of them to use its default value).
     
+    // Model Configuration Object:
+
     {
         mongooseModel: <Mongoose.Model>,  // the only MANDATORY item
 
         name: <String>,                   // human-readable name (defaults
-                                          // to model name)
+                                          // to lowercase model name)
 
         pluralName: <String>,             // plural of `name` (defaults to
                                           // model name + 's')
@@ -71,7 +70,9 @@ Each item on the `models` array can be set as follows:
 
 The `fields` option is used to change a field behaviour. If you set `explicitFieldsOnly` to `true`, the `fields` also sets which model fields will be accessible on the admininstrator interface.
 
-`fields` should be an object which model field names as keys and objects as values. The value object can be empty or have any of the following options:
+`fields` should be an object with model field names as keys and objects as values. The value object can be empty or have any of the following options (currently, there is only one option -- `edtior`):
+
+    // Field:
 
     {
         editor: <String>    // sets the HTML widget for this field (defaults
@@ -80,6 +81,47 @@ The `fields` option is used to change a field behaviour. If you set `explicitFie
                             // possible values: 'textfield', 'textarea',
                             // 'markdown', 'datetime'
     }
+
+### Examples
+
+Here are some examples of the `models` configuration:
+
+    // Assuming these Mongoose.Model instances:
+    // Post, User, Category
+
+    [
+        // Post model (adding extra configuration)
+        {
+            mongooseModel: Post,
+            toString: 'title',
+            fields: {
+                content: {
+                    editor: 'markdown'
+                },
+                teaser: {
+                    editor: 'textarea'
+                },
+            }
+        },
+
+        // User model (disable seeing and editing the user's password)
+        {
+            mongooseModel: User,
+            fields: {
+                first_name: {},
+                last_name: {},
+                username {},
+                bio: {
+                    editor: markdown
+                }
+            },
+            explicitFieldsOnly: true
+        },
+
+        // Category model (no extra configuration)
+        Category
+    ]
+
 
 ## Known Issues
 

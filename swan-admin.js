@@ -60,6 +60,7 @@ module.exports = function (config) {
         res.redirect(app.mountpath);
     });
 
+    // Any other page requires authentication
     app.use(function (req, res, next) {
         if (req.swanAdminSession.loggedInAs !== credentials.username) {
             res.redirect(app.mountpath + '/login');
@@ -72,6 +73,14 @@ module.exports = function (config) {
     // Fill in the models properties
     for (i in models) {
         (function (i) {
+            // If this is a Mongoose Model instance, wrap it
+            if (models[i].constructor === mongoose.Model.constructor) {
+                console.log(true);
+                models[i] = {
+                    mongooseModel: models[i]
+                };
+            }
+
             // Default name: model name
             if (!models[i].name) {
                 models[i].name = models[i].mongooseModel.modelName.toLowerCase();
