@@ -10,14 +10,16 @@ var sessions = require("client-sessions");
 module.exports = function (config) {
     // user configuration
     var models = config.models;
-    var mountPoint = config.mountPoint;
     var credentials = config.credentials;
-    var sessionSecret = process.env.SESSION_SECRET || config.sessionSecret;
+    var sessionSecret = config.sessionSecret;
 
     var app = express();
 
     // app configuration
-    app.locals.mountPoint = mountPoint ? mountPoint : '/';
+    app.use(function(req, res, next) {
+        res.locals.baseUri = app.mountpath ? app.mountpath : '/.';
+        next();
+    });
 
     // view engine setup
     app.set('views', path.join(__dirname, 'views'));
@@ -45,7 +47,7 @@ module.exports = function (config) {
     app.post('/login', function (req, res, next) {
         if (req.body.username === credentials.username || req.body.password === credentials.password) {
             req.swanAdminSession.loggedInAs = credentials.username;
-            res.redirect(mountPoint);
+            res.redirect(app.mountpath);
         } else {
             next({
                 message: 'Invalid credentials'
@@ -55,12 +57,12 @@ module.exports = function (config) {
 
     app.get('/logout', function (req, res, next) {
         req.swanAdminSession.loggedInAs = null;
-        res.redirect(mountPoint);
+        res.redirect(app.mountpath);
     });
 
     app.use(function (req, res, next) {
         if (req.swanAdminSession.loggedInAs !== credentials.username) {
-            res.redirect(mountPoint + '/login');
+            res.redirect(app.mountpath + '/login');
         } else {
             res.locals.authenticated = true;
             next();
@@ -172,7 +174,7 @@ module.exports = function (config) {
                     // });
                 }
 
-                res.redirect(mountPoint + '/' + model.pluralName);
+                res.redirect(app.mountpath + '/' + model.pluralName);
             });
         });
     }
@@ -234,7 +236,7 @@ module.exports = function (config) {
                         return next(err);
                     }
 
-                    res.redirect(mountPoint + '/' + model.pluralName);
+                    res.redirect(app.mountpath + '/' + model.pluralName);
                 });
             } else {
                 res.redirect(req.originalUrl);

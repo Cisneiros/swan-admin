@@ -14,40 +14,32 @@ Swan Admin is ment to be used with **existing Express applications**. It assumes
 
 This should go on your Express app code.
 
-    // User and Post are instances of Mongoose.Model
+    // Define which models will be available on the administration interface.
+    // `User` and `Post` are instances of Mongoose.Model, in this example.
     var models = [
         { mongooseModel: User },
         { mongooseModel: Post }
     ];
 
-    // This sets the root of your admin interface
-    var adminMountPoint = '/admin';
-
-    // Credentials to access the admin system
-    // Try to use environment variables instad of putting them on the code
-    var credentials = {
-        username: process.env.ADMIN_USERNAME,
-        password: process.env.ADMIN_PASSWORD
-    };
-    
-    // Require the module and install the middleware
-    // If you set the variables above, you don't have to change anything below.
+    // Require the module and install the middleware.
     var admin = require('swan-admin');
-    app.use(adminMountPoint, admin({
+    app.use('/admin', admin({
         models: models,
-        mountPoint: adminMountPoint,
-        credentials: credentials
+        credentials: {
+            username: process.env.ADMIN_USERNAME,
+            password: process.env.ADMIN_PASSWORD
+        },
+        sessionSecret: process.env.ADMIN_SESSION_SECRET
     }));
 
-Also, Swan Admin stores the authentication data on the **client**, securely. This means Swan Admin authentication is stateless, and can scale. It assumes you have a `SESSION_SECRET` environment variable, whose value is a random string that only you know.
+Swan Admin stores the authentication data on the **client**, securely. This means Swan Admin authentication is stateless, and can scale. It uses a Session Secret to encrypt the session data, before sending it to the browser. It is strongely adivised that you keep that in an environment variable, like `ADMIN_SESSION_SECRET` (as done above), whose value is a random string that only you know. The same applies to your credentials. If, for some reason, you cannot set these environment variable, you can pass the bare strings on the app configuration.
 
-If, for some reason, you cannot set this environment variable, you can pass the string on the app configuration. In that case, the last part would be something like:
-
-    var admin = require('swan-admin');
     app.use(adminMountPoint, admin({
         models: models,
-        mountPoint: adminMountPoint,
-        credentials: credentials,
+        credentials: {
+            username: 'boss',
+            password: 'im-th3-b0ss'
+        },
         sessionSecret: 'something-random-and-SECRET!'
     }));
 

@@ -4,7 +4,7 @@ mixin makeLink(model, instance, extras)
   -   extras = model;
   -   model = undefined;
   - }
-  - finalUrl = mountPoint;
+  - finalUrl = baseUri;
   - if (model) {
   -   finalUrl += '/' + model.pluralName;
   -   if (instance) {

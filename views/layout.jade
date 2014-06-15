@@ -8,9 +8,9 @@ html
         | Swan Admin
     meta(name='viewport', content='width=device-width, initial-scale=1')
     meta(charset='utf-8')
-    link(rel='stylesheet', href='#{mountPoint}/stylesheets/bootstrap.min.css')
-    link(rel='stylesheet', href='#{mountPoint}/stylesheets/bootstrap-datetimepicker.min.css')
-    link(rel='stylesheet', href='#{mountPoint}/stylesheets/style.css')
+    link(rel='stylesheet', href='#{baseUri}/stylesheets/bootstrap.min.css')
+    link(rel='stylesheet', href='#{baseUri}/stylesheets/bootstrap-datetimepicker.min.css')
+    link(rel='stylesheet', href='#{baseUri}/stylesheets/style.css')
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js')
   body
     .container
@@ -20,7 +20,7 @@ html
         .col-sm-3
           +sidebar(models)
     
-    script(src='#{mountPoint}/javascripts/bootstrap.min.js')
-    script(src='#{mountPoint}/javascripts/moment.min.js')
-    script(src='#{mountPoint}/javascripts/bootstrap-datetimepicker.min.js')
-    script(src='#{mountPoint}/javascripts/marked.js')
+    script(src='#{baseUri}/javascripts/bootstrap.min.js')
+    script(src='#{baseUri}/javascripts/moment.min.js')
+    script(src='#{baseUri}/javascripts/bootstrap-datetimepicker.min.js')
+    script(src='#{baseUri}/javascripts/marked.js')
