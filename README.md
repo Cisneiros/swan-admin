@@ -79,7 +79,8 @@ The `fields` option is used to change a field behaviour. If you set `explicitFie
                             // to 'textfield' or 'datetime')
                             // 
                             // possible values: 'textfield', 'textarea',
-                            // 'markdown', 'datetime'
+                            // 'markdown', 'datetime', 'csv' (comma-separated
+                            // values)
     }
 
 ### Examples

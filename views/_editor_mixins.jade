@@ -50,6 +50,7 @@ mixin editor_datetime(field, value)
 mixin editor(field, value, editor)
   case editor
     when 'textfield'
+    when 'csv'
       +editor_textfield(field, value)
     when 'textarea'
       +editor_textarea(field, value)
@@ -60,5 +61,5 @@ mixin editor(field, value, editor)
     default
       em
         | No editor matching 
-        strong= fieldData.editor
+        strong= editor
         | .

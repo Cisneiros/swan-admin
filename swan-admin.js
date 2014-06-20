@@ -167,7 +167,13 @@ module.exports = function (config) {
             var instance = new model.mongooseModel();
 
             for (fieldName in model.fields) {
-                instance[fieldName] = req.body[fieldName];
+                var value = req.body[fieldName];
+
+                if (model.fields[fieldName].editor === 'csv') {
+                    value = value.split(',');
+                }
+
+                instance[fieldName] = value;
             }
             instance.save(function (err) {
                 if (err) {
@@ -210,7 +216,13 @@ module.exports = function (config) {
                 }
 
                 for (fieldName in model.fields) {
-                    instance[fieldName] = req.body[fieldName];
+                    var value = req.body[fieldName];
+
+                    if (model.fields[fieldName].editor === 'csv') {
+                        value = value.split(',');
+                    }
+
+                    instance[fieldName] = value;
                 }
                 instance.save(function (err) {
                     if (err) {

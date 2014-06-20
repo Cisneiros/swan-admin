@@ -1,7 +1,7 @@
 {
   "name": "swan-admin",
   "description": "Admin interface for managing Mongoose models on Express websites.",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "private": false,
   "main": "swan-admin.js",
   "keywords": [
@@ -10,7 +10,7 @@
     "express"
   ],
   "homepage": "https://github.com/Cisneiros/swan-admin",
-  "license" : "MIT",
+  "license": "MIT",
   "author": {
     "name": "Alexandre Cisneiros",
     "email": "alexandre@cisneiros.com",
