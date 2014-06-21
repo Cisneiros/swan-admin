@@ -75,7 +75,6 @@ module.exports = function (config) {
         (function (i) {
             // If this is a Mongoose Model instance, wrap it
             if (models[i].constructor === mongoose.Model.constructor) {
-                console.log(true);
                 models[i] = {
                     mongooseModel: models[i]
                 };
@@ -126,10 +125,21 @@ module.exports = function (config) {
                         // Default editor: textfield or datetime
                         if (!models[i].fields[pathData.path].editor) {
                             switch(models[i].fields[pathData.path].kind) {
-                                case mongoose.Schema.Types.Date:
-                                case Date:
+                            case mongoose.Schema.Types.Date:
+                            case Date:
                                 models[i].fields[pathData.path].editor = 'datetime';
                                 break;
+
+                            case mongoose.Schema.Types.Array:
+                            case Array:
+                                models[i].fields[pathData.path].editor = 'csv';
+                                break;
+
+                            case mongoose.Schema.Types.Mixed:
+                            case Object:
+                                models[i].fields[pathData.path].editor = 'json';
+                                break;
+
                             default:
                                 models[i].fields[pathData.path].editor = 'textfield';
                                 break;
@@ -154,6 +164,20 @@ module.exports = function (config) {
         });
     }
 
+    function parseFieldValue(field, value) {
+        switch(field.editor) {
+        case 'csv':
+            value = value.split(',');
+            break;
+
+        case 'json':
+            value = JSON.parse(value);
+            break;
+        }
+
+        return value;
+    }
+
     function makeCreate (model) {
         app.get('/' + model.pluralName + '/create', function (req, res, next) {
             res.render('create', {
@@ -167,13 +191,8 @@ module.exports = function (config) {
             var instance = new model.mongooseModel();
 
             for (fieldName in model.fields) {
-                var value = req.body[fieldName];
-
-                if (model.fields[fieldName].editor === 'csv') {
-                    value = value.split(',');
-                }
-
-                instance[fieldName] = value;
+                instance.set(fieldName, parseFieldValue(model.fields[fieldName], req.body[fieldName]));
+                
             }
             instance.save(function (err) {
                 if (err) {
@@ -216,13 +235,7 @@ module.exports = function (config) {
                 }
 
                 for (fieldName in model.fields) {
-                    var value = req.body[fieldName];
-
-                    if (model.fields[fieldName].editor === 'csv') {
-                        value = value.split(',');
-                    }
-
-                    instance[fieldName] = value;
+                    instance.set(fieldName, parseFieldValue(model.fields[fieldName], req.body[fieldName]));
                 }
                 instance.save(function (err) {
                     if (err) {

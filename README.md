@@ -70,17 +70,18 @@ If you want a fine tuned administration interface, pass Model Configuration Obje
 
 The `fields` option is used to change a field behaviour. If you set `explicitFieldsOnly` to `true`, the `fields` also sets which model fields will be accessible on the admininstrator interface.
 
-`fields` should be an object with model field names as keys and objects as values. The value object can be empty or have any of the following options (currently, there is only one option -- `edtior`):
+`fields` should be an object with model field names as keys and objects as values. The value object can be empty or have any of the following options (currently, there is only one option -- `editor`):
 
     // Field:
 
     {
         editor: <String>    // sets the HTML widget for this field (defaults
-                            // to 'textfield' or 'datetime')
+                            // to 'datetime' for dates, 'csv' for arrays, 
+                            // 'json' for mixeds or 'textfield' for the rest)
                             // 
                             // possible values: 'textfield', 'textarea',
                             // 'markdown', 'datetime', 'csv' (comma-separated
-                            // values)
+                            // values), 'json'
     }
 
 ### Examples

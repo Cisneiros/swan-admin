@@ -13,6 +13,6 @@ block content
     each fieldData, fieldName in model.fields
       .form-group
         label.control-label.col-sm-2 #{fieldName}
-        +editor(fieldName, instance[fieldName], fieldData.editor)
+        +editor(fieldName, instance.get(fieldName) , fieldData.editor)
     button(type='submit').btn.btn-success Save this #{model.name}
 
