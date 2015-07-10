@@ -1,7 +1,7 @@
 {
   "name": "swan-admin",
   "description": "Admin interface for managing Mongoose models on Express websites.",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "private": false,
   "main": "swan-admin.js",
   "keywords": [
@@ -32,5 +32,6 @@
     "mongoose": "^3.8.12",
     "marked": "^0.3.2",
     "client-sessions": "git://github.com/mozilla/node-client-sessions.git"
-  }
+  },
+  "scripts": {}
 }
