@@ -45,7 +45,7 @@ module.exports = function (config) {
     });
 
     app.post('/login', function (req, res, next) {
-        if (req.body.username === credentials.username || req.body.password === credentials.password) {
+        if (req.body.username === credentials.username && req.body.password === credentials.password) {
             req.swanAdminSession.loggedInAs = credentials.username;
             res.redirect(app.mountpath);
         } else {
