@@ -2,6 +2,8 @@
 
 A simple administration interface for Express + Mongoose projects.
 
+**Note:** I developed this initally as a personal project, and I haven't touched it for about a year. Although it still works, somethings are outdated, and some best practices were not followed. I plan on revisiting this at some point in the future for a major refactor.
+
 ## Installing
 
     npm install swan-admin
